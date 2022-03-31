@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 
 import 'callApi/api.dart';
 import 'model/checkbox.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 
 class MyHomePage extends StatefulWidget {
@@ -17,14 +18,20 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   bool value=false;
+
   List selectedIds=[];
+
   List selectedname=[];
 String controller1;
   TextEditingController controller = new TextEditingController();
 
   List<Datum> clist = List();
 
-
+  // void filter(String inputString) {
+  //   filteredList =
+  //       fooList.where((i) => i.toLowerCase().contains(inputString)).toList();
+  //   setState(() {});
+  // }
 
   List<TypeModel> Drop = <TypeModel>[];
 
@@ -124,249 +131,266 @@ String controller1;
       ),
 
       body:
-      SingleChildScrollView(
-
-        child: Column(
-          children: [
-            // Container(
-            //   height: 200,
-            //   child: ListView.builder(
-            //     padding: EdgeInsets.only(top: 0),
-            //     itemCount: clist.length,
-            //     itemBuilder: (context,i){
-            //       return Card(child: Text(
-            //         clist[i].clProductShortname,
-            //         style: TextStyle(
-            //             fontSize: 14,
-            //             fontWeight: FontWeight.w600,
-            //             letterSpacing: 0.5),
-            //       ),);
-            //  },),
-            // ),
-
-
+      Column(
+        children: [
   Container(
     child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: TextField(
-        controller: controller,
-        decoration: InputDecoration(
-          prefixIcon: Icon(Icons.search),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12)
-          )
-        ),
+      padding: const EdgeInsets.all(16.0),
+      child: TextField(
+      controller: controller,
+      decoration: InputDecoration(
+          suffixIcon:  ( IconButton(         onPressed: (){
+            controller.clear();
+                },
+
+            icon: Icon(Icons.delete_forever),
+            color: Colors.amber ,)),
+
+           prefixIcon: Icon(Icons.search),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12)
+        )
+      ),
 
 
-          onChanged: (controller){
-          setState(() {
-            controller1=controller;
-          });
-        },
-          //     (val){
-          //
-          // if(controller==selectedname){
-          //   selectedname=val;
-          // }
-          // },
+        onChanged: (controller){
+
+
+
+        setState(() {
+          controller1=controller;
+        });
+      },
+        //     (val){
+        //
+        // if(controller==selectedname){
+        //   selectedname=val;
+        // }
+        // },
 ),
+
+
     ),
   ),
 
 
-            Container(
-              height: 500,
-              child: ListView.builder(
-                padding: EdgeInsets.only(top: 0),
-                itemCount: clist.length,
-                itemBuilder: (context,i){
-                  if(controller1==clist[i].clProductShortname) {
-                    return
-                      CheckboxListTile(
-
-                          dense: true,
-                          //font change
-                          title: new Text(
-                            clist[i].clProductShortname,
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                                letterSpacing: 0.5),
-                          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 20,right: 15),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text("Select All"),
 
 
+                Checkbox(
+                    value: value,
+                    onChanged: (bool val){
+                      setState(() {
+                        value=val;
+                        // value=val;
+                      });
+                      if(value==false){
+                        setState(() {
+                          selectedIds.clear();
 
-                          value: value==true?value:clist[i].value  ,
-                          //value:value ,
-                          onChanged: (bool val) {
+                        });
+                        for(int i=0;i<clist.length;i++){
 
-
-                            if( clist[i].value==false){
-                              selectedIds.add(clist[i].accId);
-                              selectedname.add(clist[i].clProductShortname);
-
-                              print("ID:${selectedIds}");
-                              print("name:${selectedname}");
-                            }else{
-                              selectedname.remove(clist[i].clProductShortname);
-
-                            }
-
-                            if(   clist[i].value==true){
-                              selectedIds.remove(clist[i].accId);
-                            }
-
-                            setState(() {
-                              clist[i].value=val;
-                              // value=val;
-                            });
-
-
-
-
-
-
+                          setState(() {
+                            selectedname.add(clist[i].clProductShortname);
                           });
-                  }
-
-              else if(controller1==clist[i].clProductShortname.substring(0,clist[i].clProductShortname.length-controller1.length) ) {
-                return
-                  CheckboxListTile(
-
-                      dense: true,
-                      //font change
-                      title: new Text(
-                        clist[i].clProductShortname,
-                        style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: 0.5),
-                      ),
-
-
-
-                      value: value==true?value:clist[i].value  ,
-                      //value:value ,
-                      onChanged: (bool val) {
-
-
-                        if( clist[i].value==false){
-                          selectedIds.add(clist[i].accId);
-                          selectedname.add(clist[i].clProductShortname);
-
-                          print("ID:${selectedIds}");
-                          print("name:${selectedname}");
-                        }else{
-                          selectedname.remove(clist[i].clProductShortname);
-
+                          //   print("selectd tenant ${selectedTenantIds}");
+                          clist[i].value=false;
                         }
+                      }
 
-                        if(   clist[i].value==true){
-                          selectedIds.remove(clist[i].accId);
-                        }
 
+                      if(value==true){
                         setState(() {
-                          clist[i].value=val;
-                          // value=val;
+                          selectedIds.clear();
+
                         });
+                        //  print("unselectd tenant ${selectedTenantIds}");
+
+                      }
 
 
 
-
-
-
-                      });
-              }
-              if(controller.text== "") {
-                return
-                  CheckboxListTile(
-
-                      dense: true,
-                      //font change
-                      title: new Text(
-                        clist[i].clProductShortname,
-                        style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: 0.5),
-                      ),
-
-
-
-                      value: value==true?value:clist[i].value  ,
-                      //value:value ,
-                      onChanged: (bool val) {
-
-
-                        if( clist[i].value==false){
-                          selectedIds.add(clist[i].accId);
-                          selectedname.add(clist[i].clProductShortname);
-
-                          print("ID:${selectedIds}");
-                          print("name:${selectedname}");
-                        }else{
-                          selectedname.remove(clist[i].clProductShortname);
-
-                        }
-
-                        if(   clist[i].value==true){
-                          selectedIds.remove(clist[i].accId);
-                        }
-
-                        setState(() {
-                          clist[i].value=val;
-                          // value=val;
-                        });
-
-
-
-
-
-
-                      });
-              }
-
-                },),
+                    },
+                )
+              ],
             ),
+          ),
+
+
+          Expanded(
+            child: SingleChildScrollView(
+              physics: AlwaysScrollableScrollPhysics(),
+
+              child: Container(
+               // height: 500,
+                child: ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  padding: EdgeInsets.only(top: 0),
+                  itemCount: clist.length,
+                  itemBuilder: (context,i){
+
+
+                // if(controller.text== "") {
+                //   return
+                //     CheckboxListTile(
+                //
+                //         dense: true,
+                //         //font change
+                //         title: new Text(
+                //           clist[i].clProductShortname,
+                //           style: TextStyle(
+                //               fontSize: 14,
+                //               fontWeight: FontWeight.w600,
+                //               letterSpacing: 0.5),
+                //         ),
+                //
+                //
+                //
+                //         value: value==true?value:clist[i].value  ,
+                //         //value:value ,
+                //         onChanged: (bool val) {
+                //
+                //
+                //           if( clist[i].value==false){
+                //             selectedIds.add(clist[i].accId);
+                //             selectedname.add(clist[i].clProductShortname);
+                //
+                //             print("ID:${selectedIds}");
+                //             print("name:${selectedname}");
+                //           }else{
+                //             selectedname.remove(clist[i].clProductShortname);
+                //
+                //           }
+                //
+                //           if(   clist[i].value==true){
+                //             selectedIds.remove(clist[i].accId);
+                //           }
+                //
+                //           setState(() {
+                //             clist[i].value=val;
+                //             // value=val;
+                //           });
+                //
+                //
+                //
+                //
+                //
+                //
+                //         });
+                // }
+
+                if(clist[i].clProductShortname.toLowerCase().contains(controller.text.toLowerCase()) || controller.text== ""){
+                  return
+                    CheckboxListTile(
+
+                        dense: true,
+                        //font change
+                        title: new Text(
+                          clist[i].clProductShortname,
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              letterSpacing: 0.5),
+                        ),
+
+                         value: value==true?value:clist[i].value ,
+
+
+                        onChanged: (bool val) {
+                          if( clist[i].value==false){
+                            // selectedIds.add(clist[i].accId);
+                            selectedname.add(clist[i].clProductShortname);
+                             print("ID:${selectedIds}");
+                            print("name:${selectedname}");
+                          }else{
+                            selectedname.remove(clist[i].clProductShortname);
+                          }
+
+                          // if(   clist[i].value==true){
+                          //   selectedIds.remove(clist[i].accId);
+                          // }
+
+                          setState(() {
+                            clist[i].value=val;
+                            // value=val;
+                          });
+
+                        });
+                }
+else{
+  SizedBox();
+                }
+
+                  },),
+              ),
+            ),
+          ),
 SizedBox(height:30),
     ElevatedButton(
-        onPressed: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context)=>Display(name:selectedname)));
-        },
+      onPressed: (){
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>Display(name:selectedname)));
+      },
     child: Text("Next"),
     )
-
-
-
-
-
-
-
-            // ListView.builder(
-            //   physics: NeverScrollableScrollPhysics(),
-            //   shrinkWrap: true,
-            //
-            //   itemCount: clist.length,
-            //   itemBuilder: (context, i) {
-            //     return Card(
-            //       child: Text(clist[i].clProductShortname),
-            //     );
-            //   },
-            // ),
-
-
-          ],
-        ),
+        ],
       ),
-
     );
   }
 
-  void onSearchTextChanged(String value) {
-    clist.forEach((userDetail) {
-      if(controller==clist.length){
-       clist.add(userDetail);
-      }
+  void selecte(bool value) => setState(() {
+
+
+  if(value==false){
+  setState(() {
+  selectedname.clear();
+
+  });
+
+
+  for(int i=0;i<clist.length;i++) {
+  if (value == true) {
+    setState(() {
+      selectedname.add(clist[i].clProductShortname);
+    });
+
+    clist[i].value = false;
+
+    // TODO: Here goes your functionality to select all checkbox
+  }else if(value==false){
+    setState(() {
+      selectedname.remove(clist[i].clProductShortname);
+    });
+
+  }
+    setState(() {
+      value=value;
+      // value=val;
     });
   }
+
+
+  if(value==true){
+    setState(() {
+      selectedname.clear();
+
+    });
+    //  print("unselectd tenant ${selectedTenantIds}");
+
+  }
+
+
+  }
+
+
+  }
+  );
 }
+
+

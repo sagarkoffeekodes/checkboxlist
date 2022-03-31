@@ -1,7 +1,12 @@
 import 'package:checkboxlist/MyHomePage.dart';
+import 'package:checkboxlist/googlesheet.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+import 'callApi/usersheet_api.dart';
+
+Future main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await UserSheetsApi.init();
   runApp(const MyApp());
 }
 
@@ -16,7 +21,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
 
       ),
-      home:  MyHomePage(),
+      home: GoogleSheet_file(),
     );
   }
 }

@@ -53,23 +53,6 @@ class _DisplayState extends State<Display> {
             ),
 
 
-        // Container(
-        //       child: Column(
-        //         children: [
-        //           ListView.builder(
-        //             physics:NeverScrollableScrollPhysics(),
-        //             shrinkWrap: true,
-        //             itemCount:widget.name.length,
-        //
-        //             itemBuilder:(context,i) {
-        //               return
-        //                 Text(widget.name.toString());
-        //
-        //             },
-        //           )
-        //         ],
-        //       ),
-        //     )
           ],
         ),
       ),
