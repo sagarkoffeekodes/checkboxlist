@@ -37,6 +37,11 @@ dependencies:
   flutter_typeahead: ^3.2.4
   gsheets: ^0.3.2
   http: ^0.13.4
+  better_player: ^0.0.81
+  video_player: ^1.0.1
+  flutter_to_mobilepay: ^1.0.0
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

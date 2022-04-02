@@ -14,7 +14,14 @@ class Display_list_info extends StatefulWidget {
 
 class _Display_list_infoState extends State<Display_list_info> {
   bool isloaded=false;
+
+
   List<User> users=[];
+
+
+
+
+  // List<User> users=[];
   int index=0;
   Future getData()async{
 
@@ -76,7 +83,7 @@ body: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(left: 20,top: 20,bottom: 10),
+                      padding: const EdgeInsets.only(left: 30,top: 20,bottom: 10,right: 30),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -89,7 +96,7 @@ body: Column(
                           Text(users[ind].name,
                             style: TextStyle(
                                 color: Colors.green,fontSize: 15),),
-                          SizedBox(width:20),
+                          Expanded(child: SizedBox(width:30)),
                           Text(users[ind].contact,
                             style: TextStyle(
                                 color: Colors.green,fontSize: 15),),

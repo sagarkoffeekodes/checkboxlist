@@ -189,9 +189,9 @@ String controller1;
                         value=val;
                         // value=val;
                       });
-                      if(value==false){
+                      if(value==true){
                         setState(() {
-                          selectedIds.clear();
+                          selectedname.clear();
 
                         });
                         for(int i=0;i<clist.length;i++){
@@ -205,9 +205,9 @@ String controller1;
                       }
 
 
-                      if(value==true){
+                      if(value==false){
                         setState(() {
-                          selectedIds.clear();
+                          selectedname.clear();
 
                         });
                         //  print("unselectd tenant ${selectedTenantIds}");
